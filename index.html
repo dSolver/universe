@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Make a Deal with the Universe</title>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="jqueryui/js/jquery-ui-1.10.3.custom.min.js"></script>
+		<script type="text/javascript" src="universe.js"></script>
+		<link href="jqueryui/css/no-theme/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" type="text/css" />
+		<link href='http://fonts.googleapis.com/css?family=Titillium+Web:300|Sofadi+One' rel='stylesheet' type='text/css' />
+		<link href="loader.css" rel="stylesheet" type="text/css" />
+		<style>
+			.ui-draggable{
+				cursor: url('https://mail.google.com/mail/images/2/openhand.cur'), auto;
+			}
+			
+			
+			#universeviewer{
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+				overflow: hidden;
+				
+				cursor: url('https://mail.google.com/mail/images/2/openhand.cur'), auto;
+			}
+			
+			
+			#universe{
+				width: 3840px;
+				height: 2400px;
+				background-color: black;
+				background-size: cover;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+			#universe>div{
+				position: absolute;
+				font-family:'Titillium Web', sans-serif;
+			}
+			
+			.boxtitle{
+				font-family: 'Sofadi One', cursive;
+				font-size:24px;
+			}
+			
+			.btnSection a{
+				font-size:20px;
+				margin: 5px;
+			}
+			
+			.obsidianContainer{
+				background: rgb(76,76,76); /* Old browsers */
+				background: -moz-linear-gradient(top, rgba(76,76,76,1) 0%, rgba(89,89,89,1) 6%, rgba(102,102,102,1) 10%, rgba(102,102,102,1) 16%, rgba(71,71,71,1) 20%, rgba(44,44,44,1) 26%, rgba(0,0,0,1) 34%, rgba(17,17,17,1) 49%, rgba(43,43,43,1) 61%, rgba(28,28,28,1) 68%, rgba(19,19,19,1) 100%); /* FF3.6+ */
+				background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(76,76,76,1)), color-stop(6%,rgba(89,89,89,1)), color-stop(10%,rgba(102,102,102,1)), color-stop(16%,rgba(102,102,102,1)), color-stop(20%,rgba(71,71,71,1)), color-stop(26%,rgba(44,44,44,1)), color-stop(34%,rgba(0,0,0,1)), color-stop(49%,rgba(17,17,17,1)), color-stop(61%,rgba(43,43,43,1)), color-stop(68%,rgba(28,28,28,1)), color-stop(100%,rgba(19,19,19,1))); /* Chrome,Safari4+ */
+				background: -webkit-linear-gradient(top, rgba(76,76,76,1) 0%,rgba(89,89,89,1) 6%,rgba(102,102,102,1) 10%,rgba(102,102,102,1) 16%,rgba(71,71,71,1) 20%,rgba(44,44,44,1) 26%,rgba(0,0,0,1) 34%,rgba(17,17,17,1) 49%,rgba(43,43,43,1) 61%,rgba(28,28,28,1) 68%,rgba(19,19,19,1) 100%); /* Chrome10+,Safari5.1+ */
+				background: -o-linear-gradient(top, rgba(76,76,76,1) 0%,rgba(89,89,89,1) 6%,rgba(102,102,102,1) 10%,rgba(102,102,102,1) 16%,rgba(71,71,71,1) 20%,rgba(44,44,44,1) 26%,rgba(0,0,0,1) 34%,rgba(17,17,17,1) 49%,rgba(43,43,43,1) 61%,rgba(28,28,28,1) 68%,rgba(19,19,19,1) 100%); /* Opera 11.10+ */
+				background: -ms-linear-gradient(top, rgba(76,76,76,1) 0%,rgba(89,89,89,1) 6%,rgba(102,102,102,1) 10%,rgba(102,102,102,1) 16%,rgba(71,71,71,1) 20%,rgba(44,44,44,1) 26%,rgba(0,0,0,1) 34%,rgba(17,17,17,1) 49%,rgba(43,43,43,1) 61%,rgba(28,28,28,1) 68%,rgba(19,19,19,1) 100%); /* IE10+ */
+				background: linear-gradient(to bottom, rgba(76,76,76,1) 0%,rgba(89,89,89,1) 6%,rgba(102,102,102,1) 10%,rgba(102,102,102,1) 16%,rgba(71,71,71,1) 20%,rgba(44,44,44,1) 26%,rgba(0,0,0,1) 34%,rgba(17,17,17,1) 49%,rgba(43,43,43,1) 61%,rgba(28,28,28,1) 68%,rgba(19,19,19,1) 100%); /* W3C */
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c4c4c', endColorstr='#131313',GradientType=0 ); /* IE6-9 */
+				color:#fff;
+				padding: 2px;
+				border-radius:5px;
+				max-width: 350px;
+			}
+			.obsidianContainer>div{
+				padding:10px;
+				border: solid 1px rgba(255, 255, 255, 0.6);
+				border-radius:4px;
+				cursor:default;
+			}
+			
+			
+			.glassContainer{
+				background: -moz-linear-gradient(top, #000 0%, rgba(55,55,55,0.9) 34%, rgba(55,155,255,0.9) 100%); /* FF3.6+ */
+				background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,1)), color-stop(34%,rgba(55,55,55,0.9)), color-stop(100%,rgba(55,155,255,0.9))); /* Chrome,Safari4+ */
+				background: -webkit-linear-gradient(top, rgba(0, 0, 0, 1) 0%,rgba(55,55,55,0.9) 34%,rgba(55,155,255,0.9) 100%); /* Chrome10+,Safari5.1+ */
+				background: -o-linear-gradient(top, rgba(0,0,0,1) 0%,rgba(55,55,55,0.9) 34%,rgba(55,155,255,0.9) 100%); /* Opera 11.10+ */
+				background: -ms-linear-gradient(top, rgba(0, 0, 0, 1) 0%,rgba(55,55,55,0.9) 34%,rgba(55,155,255,0.9) 100%); /* IE10+ */
+				background: linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(55,55,55,0.9) 34%,rgba(55,155,255,0.9) 100%); /* W3C */
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#80ffffff',GradientType=0 ); /* IE6-9 */
+				border-radius:5px;
+				padding:2px;
+				max-width:350px;
+				color:white;
+				box-shadow: 0 0 5px #000;
+			}
+			
+			.glassContainer>div{
+				padding:10px;
+				border: solid 1px rgba(255, 255, 255, 0.6);
+				border-radius:4px;
+				cursor:default;
+			}
+			
+			textarea{
+				width: 100%;
+				resize: none;
+				box-sizing: border-box;
+				-moz-box-sizing: border-box;
+			}
+			
+			.wish{
+				max-width: 180px;
+				background-color: #ffffff;
+				box-shadow: 0 0 1px #333;
+				position: absolute !important;
+				padding: 5px;
+				font-size:14px;
+				cursor:default;
+			}
+			
+			.drg{
+				cursor: default;
+			}
+			
+			a{
+				color:#FFF;
+			}
+			
+			a:visited{
+				color:#FFF;
+			}
+			
+			a:hover{
+				color:#48CEFA;
+			}
+			
+			#compass{
+				position: fixed;
+				top: 5px;
+				left: 5px;
+				z-index:999;
+				font-family: 'Sofadi One', cursive;
+				font-size:24px;
+				background-image:url('images/SVG/compass.svg');
+				background-size:36px 36px;
+				background-position: top left;
+				cursor: pointer;
+				width: 36px;
+				height: 36px;
+			}
+			.sig{
+				font-style:italic;
+			}
+			
+			#sendBtn{
+				display: inline-block;
+				background-image:url('images/SVG/checkmark.svg');
+				width: 24px;
+				height: 24px;
+				margin-right: 8px;
+				background-size:contain;
+			}
+			
+			#closeBtn{
+				display: inline-block;
+				background-image:url('images/SVG/close.svg');
+				width: 20px;
+				height: 20px;
+				background-size:contain;
+			}
+			
+			#previewControl{
+				position: absolute;
+				top: -15px;
+				right: -15px;
+			}
+			
+			#links{
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index:99;
+				background-color:rgba(5, 5, 5, 0.95);
+				padding:10px;
+				padding-left:45px;
+				font-family:'Titillium Web', sans-serif;
+				color:#f2f2f2;
+			}
+			#links ul{
+				padding: 15px;
+				margin: 0;
+			}
+			
+			.fullstar{
+				width: 24px;
+				height: 24px;
+				display: block;
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-image:url('images/star3.svg');
+			}
+			
+			.emptystar{
+				width: 24px;
+				height: 24px;
+				display: block;
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-image:url('images/star.svg');
+			}
+		</style>
+	</head>
+	<body>
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+		<div id="compass">
+		</div>
+		<div id="links" style="display:none">
+			Make a Deal with the Universe is a project of dSolver. The posts are moderated but <br>
+			response time coincides to waking hours dSolver is not at his full time job.<br><br>
+			As requested, here's an <a href="archive.html">Archive of all deals made with the Universe</a><br><br>
+			Got twitter? Follow @dSolver to get news on updates, new projects, insights, and more!<br><br>
+			Reddit: Thank you for your overwhelming support, On June 4th, Stats will be made public! <br>
+			Shoot a message to dSolver on reddit if you have a particular stat you want to know<br><br>
+			Other projects by <a href="http://www.dsolver.ca">dSolver</a>
+			<ul>
+				<li><a href="http://codebreak.dsolver.ca">C0d3Br34k</a> - Break the Code, Get the Game</li>
+				<li><a href="http://dacheng.me/imbored/suggestions">Suggestions</a> - Random suggestions to cure boredom</li>
+				<li><a href="http://dacheng.me/dBoom">dBoom BETA</a> - boom! Boom! Boom!</li>
+			</ul>
+		</div>
+		
+		<div id="universeviewer">
+			<div id="universe">
+				<div id="home" class="glassContainer" style="top:998px;left:1735px">
+					<div>
+						
+						<p>
+							First, notice how you can drag the stuff on screen around. You can even drag the screen around! This will be your navigation.
+						</p>
+						<p>
+							Mastered that? ok. Let's make a deal with the universe.
+						</p>
+						<p>
+							<a href="#" data-link="#how">How?</a>
+						</p>
+						<p>
+							<a href="#" data-link="#policy">What is the policy?</a>
+						</p>
+						
+					</div>
+				</div>
+				<div id="how" class="glassContainer" style="top:300px;left:80px">
+					<div>
+						How to make a deal with the Universe.
+						<ol>
+							<li>Find a spot you'd like to post your deal</li>
+							<li>Click said spot, and a popup will show</li>
+							<li>Fill out the fields, and hit preview</li>
+							<li>When you're happy with the spot, hit the checkmark</li>
+							<li>???</li>
+							<li>If you hold your end of the bargain, you might get what you're looking for!</li>
+						</ol>
+						<p>
+							<a href="#" data-link="#home">Home</a>
+						</p>
+						<p>
+							<a href="#" data-link="#policy">What is the policy?</a>
+						</p>
+					</div>
+				</div>
+				<div id="policy" class="glassContainer" style="top:1600px; left:3300px">
+					<div>
+						Policy
+						<ol>
+							<li>No names</li>
+							<li>No addresses</li>
+							<li>No spamming</li>
+							<li>No obscenity</li>
+						</ol>
+						<p>
+							Violators will be banned, this project is moderated.
+						</p>
+						<p>
+							<a href="#" data-link="#home">Home</a>
+						</p>
+						<p>
+							<a href="#" data-link="#how">How does this work?</a>
+						</p>
+					</div>
+				</div>
+				<div id="dealmaker"  style="display:none" class="obsidianContainer">
+					<div id="dealmakercontent">
+						<div class="boxtitle drg">Let's make a deal</div>
+						<div class="drg">
+							Dear Universe,<br>
+							I would like
+						</div>
+						<div>
+							<textarea id="wish" maxlength="250"></textarea>
+						</div>
+						<div class="drg">
+							In return, I will
+						</div>
+						<div>
+							<textarea id="offer" maxlength="250"></textarea>
+						</div>
+						<div class="drg">
+							I live in <br>
+							<select id="country" name="Country"> 
+								<option value="" selected="selected">Select Country</option> 
+								<option value="Canada">Canada</option> 
+								<option value="United States">United States</option> 
+								<option value="United Kingdom">United Kingdom</option> 
+								<option value="Afghanistan">Afghanistan</option> 
+								<option value="Albania">Albania</option> 
+								<option value="Algeria">Algeria</option> 
+								<option value="American Samoa">American Samoa</option> 
+								<option value="Andorra">Andorra</option> 
+								<option value="Angola">Angola</option> 
+								<option value="Anguilla">Anguilla</option> 
+								<option value="Antarctica">Antarctica</option> 
+								<option value="Antigua and Barbuda">Antigua and Barbuda</option> 
+								<option value="Argentina">Argentina</option> 
+								<option value="Armenia">Armenia</option> 
+								<option value="Aruba">Aruba</option> 
+								<option value="Australia">Australia</option> 
+								<option value="Austria">Austria</option> 
+								<option value="Azerbaijan">Azerbaijan</option> 
+								<option value="Bahamas">Bahamas</option> 
+								<option value="Bahrain">Bahrain</option> 
+								<option value="Bangladesh">Bangladesh</option> 
+								<option value="Barbados">Barbados</option> 
+								<option value="Belarus">Belarus</option> 
+								<option value="Belgium">Belgium</option> 
+								<option value="Belize">Belize</option> 
+								<option value="Benin">Benin</option> 
+								<option value="Bermuda">Bermuda</option> 
+								<option value="Bhutan">Bhutan</option> 
+								<option value="Bolivia">Bolivia</option> 
+								<option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option> 
+								<option value="Botswana">Botswana</option> 
+								<option value="Bouvet Island">Bouvet Island</option> 
+								<option value="Brazil">Brazil</option>
+								<option value="Brunei Darussalam">Brunei Darussalam</option> 
+								<option value="Bulgaria">Bulgaria</option> 
+								<option value="Burkina Faso">Burkina Faso</option> 
+								<option value="Burundi">Burundi</option> 
+								<option value="Cambodia">Cambodia</option> 
+								<option value="Cameroon">Cameroon</option> 
+								<option value="Cape Verde">Cape Verde</option> 
+								<option value="Cayman Islands">Cayman Islands</option> 
+								<option value="Central African Republic">Central African Republic</option> 
+								<option value="Chad">Chad</option> 
+								<option value="Chile">Chile</option> 
+								<option value="China">China</option> 
+								<option value="Christmas Island">Christmas Island</option> 
+								<option value="Cocos (Keeling) Islands">Cocos (Keeling) Islands</option> 
+								<option value="Colombia">Colombia</option> 
+								<option value="Comoros">Comoros</option> 
+								<option value="Congo">Congo</option>
+								<option value="Cook Islands">Cook Islands</option> 
+								<option value="Costa Rica">Costa Rica</option> 
+								<option value="Cote D'ivoire">Cote D'ivoire</option> 
+								<option value="Croatia">Croatia</option> 
+								<option value="Cuba">Cuba</option> 
+								<option value="Cyprus">Cyprus</option> 
+								<option value="Czech Republic">Czech Republic</option> 
+								<option value="Denmark">Denmark</option> 
+								<option value="Djibouti">Djibouti</option> 
+								<option value="Dominica">Dominica</option> 
+								<option value="Dominican Republic">Dominican Republic</option> 
+								<option value="Ecuador">Ecuador</option> 
+								<option value="Egypt">Egypt</option> 
+								<option value="El Salvador">El Salvador</option> 
+								<option value="Equatorial Guinea">Equatorial Guinea</option> 
+								<option value="Eritrea">Eritrea</option> 
+								<option value="Estonia">Estonia</option> 
+								<option value="Ethiopia">Ethiopia</option>
+								<option value="Faroe Islands">Faroe Islands</option> 
+								<option value="Fiji">Fiji</option> 
+								<option value="Finland">Finland</option> 
+								<option value="France">France</option> 
+								<option value="French Guiana">French Guiana</option> 
+								<option value="French Polynesia">French Polynesia</option>
+								<option value="Gabon">Gabon</option> 
+								<option value="Gambia">Gambia</option> 
+								<option value="Georgia">Georgia</option> 
+								<option value="Germany">Germany</option> 
+								<option value="Ghana">Ghana</option> 
+								<option value="Gibraltar">Gibraltar</option> 
+								<option value="Greece">Greece</option> 
+								<option value="Greenland">Greenland</option> 
+								<option value="Grenada">Grenada</option> 
+								<option value="Guadeloupe">Guadeloupe</option> 
+								<option value="Guam">Guam</option> 
+								<option value="Guatemala">Guatemala</option> 
+								<option value="Guinea">Guinea</option> 
+								<option value="Guinea-bissau">Guinea-bissau</option> 
+								<option value="Guyana">Guyana</option> 
+								<option value="Haiti">Haiti</option>
+								<option value="Holy See (Vatican City State)">Holy See (Vatican City State)</option> 
+								<option value="Honduras">Honduras</option> 
+								<option value="Hong Kong">Hong Kong</option> 
+								<option value="Hungary">Hungary</option> 
+								<option value="Iceland">Iceland</option> 
+								<option value="India">India</option> 
+								<option value="Indonesia">Indonesia</option> 
+								<option value="Iran">Iran</option> 
+								<option value="Iraq">Iraq</option> 
+								<option value="Ireland">Ireland</option> 
+								<option value="Israel">Israel</option> 
+								<option value="Italy">Italy</option> 
+								<option value="Jamaica">Jamaica</option> 
+								<option value="Japan">Japan</option> 
+								<option value="Jordan">Jordan</option> 
+								<option value="Kazakhstan">Kazakhstan</option> 
+								<option value="Kenya">Kenya</option> 
+								<option value="Kiribati">Kiribati</option> 
+								<option value="North Korea">Korea, North</option> 
+								<option value="South Korea">Korea, South</option> 
+								<option value="Kuwait">Kuwait</option> 
+								<option value="Kyrgyzstan">Kyrgyzstan</option> 
+								<option value="Laos">Laos</option> 
+								<option value="Latvia">Latvia</option> 
+								<option value="Lebanon">Lebanon</option> 
+								<option value="Lesotho">Lesotho</option> 
+								<option value="Liberia">Liberia</option> 
+								<option value="Libyan Arab Jamahiriya">Libyan Arab Jamahiriya</option> 
+								<option value="Liechtenstein">Liechtenstein</option> 
+								<option value="Lithuania">Lithuania</option> 
+								<option value="Luxembourg">Luxembourg</option> 
+								<option value="Macao">Macao</option>
+								<option value="Madagascar">Madagascar</option> 
+								<option value="Malawi">Malawi</option> 
+								<option value="Malaysia">Malaysia</option> 
+								<option value="Maldives">Maldives</option> 
+								<option value="Mali">Mali</option> 
+								<option value="Malta">Malta</option> 
+								<option value="Marshall Islands">Marshall Islands</option> 
+								<option value="Martinique">Martinique</option> 
+								<option value="Mauritania">Mauritania</option> 
+								<option value="Mauritius">Mauritius</option> 
+								<option value="Mayotte">Mayotte</option> 
+								<option value="Mexico">Mexico</option> 
+								<option value="Micronesia">Micronesia</option> 
+								<option value="Moldova, Republic of">Moldova, Republic of</option> 
+								<option value="Monaco">Monaco</option> 
+								<option value="Mongolia">Mongolia</option> 
+								<option value="Montserrat">Montserrat</option> 
+								<option value="Morocco">Morocco</option> 
+								<option value="Mozambique">Mozambique</option> 
+								<option value="Myanmar">Myanmar</option> 
+								<option value="Namibia">Namibia</option> 
+								<option value="Nauru">Nauru</option> 
+								<option value="Nepal">Nepal</option> 
+								<option value="Netherlands">Netherlands</option>
+								<option value="New Caledonia">New Caledonia</option> 
+								<option value="New Zealand">New Zealand</option> 
+								<option value="Nicaragua">Nicaragua</option> 
+								<option value="Niger">Niger</option> 
+								<option value="Nigeria">Nigeria</option> 
+								<option value="Niue">Niue</option> 
+								<option value="Norfolk Island">Norfolk Island</option> 
+								<option value="Northern Mariana Islands">Northern Mariana Islands</option> 
+								<option value="Norway">Norway</option> 
+								<option value="Oman">Oman</option> 
+								<option value="Pakistan">Pakistan</option> 
+								<option value="Palau">Palau</option>
+								<option value="Panama">Panama</option> 
+								<option value="Papua New Guinea">Papua New Guinea</option> 
+								<option value="Paraguay">Paraguay</option> 
+								<option value="Peru">Peru</option> 
+								<option value="Philippines">Philippines</option> 
+								<option value="Pitcairn">Pitcairn</option> 
+								<option value="Poland">Poland</option> 
+								<option value="Portugal">Portugal</option> 
+								<option value="Puerto Rico">Puerto Rico</option> 
+								<option value="Qatar">Qatar</option> 
+								<option value="Reunion">Reunion</option> 
+								<option value="Romania">Romania</option> 
+								<option value="Russian Federation">Russia</option> 
+								<option value="Rwanda">Rwanda</option>
+								<option value="Samoa">Samoa</option> 
+								<option value="San Marino">San Marino</option> 
+								<option value="Sao Tome and Principe">Sao Tome and Principe</option> 
+								<option value="Saudi Arabia">Saudi Arabia</option> 
+								<option value="Senegal">Senegal</option> 
+								<option value="Serbia and Montenegro">Serbia and Montenegro</option> 
+								<option value="Seychelles">Seychelles</option> 
+								<option value="Sierra Leone">Sierra Leone</option> 
+								<option value="Singapore">Singapore</option> 
+								<option value="Slovakia">Slovakia</option> 
+								<option value="Slovenia">Slovenia</option> 
+								<option value="Solomon Islands">Solomon Islands</option> 
+								<option value="Somalia">Somalia</option> 
+								<option value="South Africa">South Africa</option>
+								<option value="Spain">Spain</option> 
+								<option value="Sri Lanka">Sri Lanka</option> 
+								<option value="Sudan">Sudan</option> 
+								<option value="Suriname">Suriname</option> 
+								<option value="Svalbard and Jan Mayen">Svalbard and Jan Mayen</option> 
+								<option value="Swaziland">Swaziland</option> 
+								<option value="Sweden">Sweden</option> 
+								<option value="Switzerland">Switzerland</option> 
+								<option value="Syrian Arab Republic">Syrian Arab Republic</option> 
+								<option value="Taiwan">Taiwan</option> 
+								<option value="Tajikistan">Tajikistan</option> 
+								<option value="Tanzania">Tanzania</option> 
+								<option value="Thailand">Thailand</option> 
+								<option value="Timor-leste">Timor-leste</option> 
+								<option value="Togo">Togo</option> 
+								<option value="Tokelau">Tokelau</option> 
+								<option value="Tonga">Tonga</option> 
+								<option value="Trinidad and Tobago">Trinidad and Tobago</option> 
+								<option value="Tunisia">Tunisia</option> 
+								<option value="Turkey">Turkey</option> 
+								<option value="Turkmenistan">Turkmenistan</option> 
+								<option value="Turks and Caicos Islands">Turks and Caicos Islands</option> 
+								<option value="Tuvalu">Tuvalu</option> 
+								<option value="Uganda">Uganda</option> 
+								<option value="Ukraine">Ukraine</option> 
+								<option value="United Arab Emirates">United Arab Emirates</option> 
+								<option value="United Kingdom">United Kingdom</option> 
+								<option value="United States">United States</option> 
+								<option value="Uruguay">Uruguay</option> 
+								<option value="Uzbekistan">Uzbekistan</option> 
+								<option value="Vanuatu">Vanuatu</option> 
+								<option value="Venezuela">Venezuela</option> 
+								<option value="Viet Nam">Viet Nam</option>
+								<option value="Yemen">Yemen</option> 
+								<option value="Zambia">Zambia</option> 
+								<option value="Zimbabwe">Zimbabwe</option>
+							</select>
+						</div>
+						<div class="btnSection">
+							<a href="#" id="previewBtn">Preview</a> | 
+							<a href="#" id="cancelBtn">Cancel</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</body>
+</html>
